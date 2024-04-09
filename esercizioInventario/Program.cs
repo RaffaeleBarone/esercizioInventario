@@ -109,9 +109,15 @@ static class Program
         
         foreach(var item in listaProdotti)
         {
-            Console.WriteLine($"ID: {item.id}, Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
+            if (item.prezzo <= minRange || item.prezzo >= maxRange)
+            {
+                Console.WriteLine("Nessun prodotto presente in questo range di prezzo");
+            }
+            else
+            {
+                Console.WriteLine($"ID: {item.id}, Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
+            }
+   
         }
     }
-
-
 }
