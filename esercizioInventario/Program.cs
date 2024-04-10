@@ -21,7 +21,8 @@ static class Program
             Console.WriteLine("2. Lista prodotti");
             Console.WriteLine("3. Stampa prodotto più costoso");
             Console.WriteLine("4. Stampa prodotti con range specificato");
-            Console.WriteLine("5. Exit");
+            Console.WriteLine("5. Rimuovi un prodotto dalla lista");
+            Console.WriteLine("6. Exit");
 
             Console.WriteLine("Scelta");
             var scelta = Console.ReadLine();
@@ -41,6 +42,9 @@ static class Program
                     MostraProdottiRange();
                     break;
                 case "5":
+                    RimuoviProdotto();
+                    break;
+                case "6":
                     continua = false;
                     break;
                 default:
@@ -56,6 +60,9 @@ static class Program
     {
         //Console.WriteLine("Aggiungi l'id del prodotto:");
         //int id = int.Parse(Console.ReadLine());
+        Guid guid = Guid.NewGuid();
+        Console.WriteLine("ID:" + guid);
+        string id = guid.ToString();
         Console.WriteLine("Aggiungi il nome del prodotto:");
         string nome = Console.ReadLine();
         Console.WriteLine("Quanti prodotti sono presenti in magazzino?");
@@ -63,7 +70,7 @@ static class Program
         Console.WriteLine("Quanto costa questo prodotto?");
         double prezzo = double.Parse(Console.ReadLine());
 
-        Product nuovoProdotto = new Product(/*id, */nome, quantita, prezzo);
+        Product nuovoProdotto = new Product(id, nome, quantita, prezzo);
         listaProdotti.Add(nuovoProdotto);
 
         Console.WriteLine("Prodotto aggiunto!");
@@ -118,6 +125,25 @@ static class Program
                 Console.WriteLine($"Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
             }
    
+        }
+    }
+
+    static void RimuoviProdotto()
+    {
+        Console.WriteLine("Inserire l'id del prodotto da rimuovere");
+        string id = Console.ReadLine();
+        var prodottoDaRimuovere = listaProdotti.FirstOrDefault(p => p.id == id);
+
+        if(!listaProdotti.Contains(prodottoDaRimuovere))
+        {
+            Console.WriteLine("Il prodotto non è in lista");
+        }
+
+        else
+        {
+            listaProdotti.Remove(prodottoDaRimuovere);
+            Console.WriteLine("Prodotto rimosso con successo!");
+
         }
     }
 }
