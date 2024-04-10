@@ -54,8 +54,8 @@ static class Program
 
     static void AggiungiProdotto()
     {
-        Console.WriteLine("Aggiungi l'id del prodotto:");
-        int id = int.Parse(Console.ReadLine());
+        //Console.WriteLine("Aggiungi l'id del prodotto:");
+        //int id = int.Parse(Console.ReadLine());
         Console.WriteLine("Aggiungi il nome del prodotto:");
         string nome = Console.ReadLine();
         Console.WriteLine("Quanti prodotti sono presenti in magazzino?");
@@ -63,7 +63,7 @@ static class Program
         Console.WriteLine("Quanto costa questo prodotto?");
         double prezzo = double.Parse(Console.ReadLine());
 
-        Product nuovoProdotto = new Product(id, nome, quantita, prezzo);
+        Product nuovoProdotto = new Product(/*id, */nome, quantita, prezzo);
         listaProdotti.Add(nuovoProdotto);
 
         Console.WriteLine("Prodotto aggiunto!");
@@ -80,7 +80,7 @@ static class Program
         Console.WriteLine("Ecco la lista di tutti i prodotti presenti in negozio:\n");
         foreach(var  item in listaProdotti)
         {
-            Console.WriteLine($"ID: {item.id}, Nome: {item.nome}, Quantità: {item.quantita}, Prezzo: {item.prezzo}");
+            Console.WriteLine($"Nome: {item.nome}, Quantità: {item.quantita}, Prezzo: {item.prezzo}");
         }
     }
 
@@ -91,7 +91,7 @@ static class Program
         Console.WriteLine("Questo è il prodotto più costoso:");
         //var ProdottoPiuCostoso = listaProdotti.OrderByDescending(p => p.prezzo).Take(1).ToList();
         var ProdottoPiuCostoso = listaProdotti.OrderByDescending(p => p.prezzo).FirstOrDefault();
-        Console.WriteLine($"ID: {ProdottoPiuCostoso.id}, Nome: {ProdottoPiuCostoso.nome}, Quantità: {ProdottoPiuCostoso.quantita}, Prezzo: {ProdottoPiuCostoso.prezzo}");
+        Console.WriteLine($"Nome: {ProdottoPiuCostoso.nome}, Quantità: {ProdottoPiuCostoso.quantita}, Prezzo: {ProdottoPiuCostoso.prezzo}");
 
         //Console.WriteLine(listaProdotti.OrderByDescending(p => p.prezzo).Take(n).ToList()); 
         
@@ -109,13 +109,13 @@ static class Program
         
         foreach(var item in listaProdotti)
         {
-            if (item.prezzo <= minRange || item.prezzo >= maxRange)
+            if (item.prezzo < minRange && item.prezzo > maxRange)
             {
                 Console.WriteLine("Nessun prodotto presente in questo range di prezzo");
             }
             else
             {
-                Console.WriteLine($"ID: {item.id}, Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
+                Console.WriteLine($"Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
             }
    
         }
