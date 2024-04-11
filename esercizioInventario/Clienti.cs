@@ -14,6 +14,7 @@ namespace esercizioInventario
 
         public Clienti(string id, string? nome, string? cognome)
         {
+            Ordini = new List<Ordini>();
             this.id = id;
             this.nome = nome;
             this.cognome = cognome;
@@ -32,5 +33,6 @@ namespace esercizioInventario
         public string nome { get; set; }
        
         public string cognome { get; set; }
+        public List<Ordini> Ordini { get; set; }
     }
 }
