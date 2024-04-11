@@ -12,6 +12,7 @@ namespace esercizioInventario
         public string clienteNome { get; set;}
         public string clienteCognome { get; set;}
         public List<ProductDTO> Ordini { get; set; }
+        public string nomeProdotto { get; set; }
 
     }
 }

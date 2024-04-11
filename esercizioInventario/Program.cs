@@ -18,7 +18,6 @@ static class Program
 
         while (continua)
         {
-            Console.WriteLine("");
             Console.WriteLine("MENÙ");
             Console.WriteLine("1. Aggiungi prodotto");
             Console.WriteLine("2. Lista prodotti");
@@ -225,7 +224,7 @@ static class Program
         else
         {
 
-            Console.WriteLine("Lista clienti");
+            Console.WriteLine("Lista clienti:");
             foreach (var item in listaClienti)
             {
                 Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}");
@@ -234,7 +233,7 @@ static class Program
                 {
                     clienteNome = c.nome,
                     Ordini = listaOrdini
-                 .Where(o => o.id == c.id)
+                 .Where(o => o.id == c.id) 
                  .Select(o => new ProductDTO
                  {
                      id = o.id,
@@ -243,7 +242,7 @@ static class Program
 
                 var ordineCliente = listaClienti
                     .Join(listaProdotti,
-                    c => c.id,
+                    c => c.id,   
                     o => o.id,
                     (c, o) => new { Clienti = c, Ordini = o })
                     .GroupBy(x => x.Clienti)
@@ -268,12 +267,11 @@ static class Program
                 //    Console.WriteLine("Ordini:");
                     foreach (var ordine in listaOrdini)
                     {
-                        Console.WriteLine($"ID Ordine: {ordine.id}, Prodotto: {ordine.nomeProdotto}");
+                        Console.WriteLine($"ID Ordine: {ordine.id}, Prodotto: {ordine.nomeProdotto}"); 
                     }
                 }
 
             }
         }
     }
-
 
