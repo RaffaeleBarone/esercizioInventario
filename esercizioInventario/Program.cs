@@ -22,7 +22,8 @@ static class Program
             Console.WriteLine("3. Stampa prodotto più costoso");
             Console.WriteLine("4. Stampa prodotti con range specificato");
             Console.WriteLine("5. Rimuovi un prodotto dalla lista");
-            Console.WriteLine("6. Exit");
+            Console.WriteLine("6. Stampa i prodotti meno presente e più presente in magazzino");
+            Console.WriteLine("7. Exit");
 
             Console.WriteLine("Scelta");
             var scelta = Console.ReadLine();
@@ -45,6 +46,9 @@ static class Program
                     RimuoviProdotto();
                     break;
                 case "6":
+                    StampaProdottiMenoPiuPresenti();
+                    break;
+                case "7":
                     continua = false;
                     break;
                 default:
@@ -145,5 +149,12 @@ static class Program
             Console.WriteLine("Prodotto rimosso con successo!");
 
         }
+    }
+
+    static void StampaProdottiMenoPiuPresenti()
+    {
+        var prodottoMenoPresente = listaProdotti.OrderBy(p => p.quantita).FirstOrDefault();
+        var prodottoPiùPresente = listaProdotti.OrderByDescending(p => p.quantita).FirstOrDefault();
+        Console.WriteLine($"Il prodotto meno presente è:{prodottoMenoPresente.nome}, ce ne sono solo {prodottoMenoPresente.quantita} in magazzino, mentre quello più presente è: {prodottoPiùPresente.nome} con una quantità di {prodottoPiùPresente.quantita} unità");
     }
 }
