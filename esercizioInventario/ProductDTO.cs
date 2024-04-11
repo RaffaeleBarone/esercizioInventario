@@ -12,5 +12,7 @@ namespace esercizioInventario
         public string id {  get; set; }
         public string Nome { get; set; }
         public string prezzo { get; set; }
+
+        Ordini Ordini { get; set; }
     }
 }
