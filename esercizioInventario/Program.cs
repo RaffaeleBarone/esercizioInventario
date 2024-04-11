@@ -194,7 +194,8 @@ static class Program
         Console.WriteLine("Inserire l'id del cliente che ha effettuato l'ordine");
         string id = Console.ReadLine();
         var clienteOrdine = listaClienti.FirstOrDefault(c => c.id == id);
-        Product prodotto = new Product();
+        Ordini prodottoOrdinato = new Ordini();
+        
         
         if(clienteOrdine == null)
         {
@@ -204,12 +205,14 @@ static class Program
         else
         {
             Console.WriteLine("Inserire l'id del prodotto ordinato:");
-            prodotto.id = Console.ReadLine();
+            prodottoOrdinato.id = Console.ReadLine();
 
             Console.WriteLine("Inserire la quantità");
-            prodotto.numeroOrdini = int.Parse(Console.ReadLine());
+            prodottoOrdinato.numeroOrdini = int.Parse(Console.ReadLine());
 
+            listaOrdini.Add(prodottoOrdinato);
             Console.WriteLine("Ordine inserito con successo");
+           
         }
     }
 
@@ -223,9 +226,40 @@ static class Program
         Console.WriteLine("Lista clienti");
         foreach (var item in listaClienti)
         {
-            Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}, ordini: {item.prodottoId}");
+            Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}");
+
+            listaClienti.Select(c => new ClienteOrdiniDTO
+            {
+                clienteNome = c.nome,
+                Ordini = listaOrdini
+             .Where(o => o.id == c.id)
+             .Select(o => new ProductDTO
+             {
+                 id = o.id,
+             }).ToList()
+            } );
+
+            var ordineCliente = listaClienti
+                .Join(listaProdotti,
+                c => c.id,
+                p => p.id,
+                (c, p) => new { Clienti = c, Product = p })
+                .GroupBy(x => x.Clienti)
+                .Select(x => new ClienteOrdiniDTO
+                {
+                    clienteID = x.Key.nome,
+                    Ordini = x.Select(o => new ProductDTO
+                    {
+                        id = x.Key.id,
+                        Nome = x.Key.nome,
+                    }).OrderBy(o => o.id).ToList()
+                });
+
+            Console.WriteLine(listaOrdini);
+
+            }
         }
     }
 
 
-}
+
