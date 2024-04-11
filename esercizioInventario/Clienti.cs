@@ -8,6 +8,10 @@ namespace esercizioInventario
 {
     internal class Clienti
     {
+        public Clienti()
+        {
+        }
+
         public Clienti(string id, string? nome, string? cognome)
         {
             this.id = id;
