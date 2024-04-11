@@ -22,6 +22,7 @@ namespace esercizioInventario
 
         public Clienti(string id, string prodottoId, string nome, string cognome)
         {
+            Ordini = new List<Ordini>();
             this.id = id;
             this.prodottoId = prodottoId;
             this.nome = nome;

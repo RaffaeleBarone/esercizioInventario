@@ -193,7 +193,7 @@ static class Program
         Console.WriteLine("Inserire l'id del cliente che ha effettuato l'ordine");
         string id = Console.ReadLine();
         var clienteOrdine = listaClienti.FirstOrDefault(c => c.id == id);
-        
+
 
 
         if (clienteOrdine == null)
@@ -237,60 +237,60 @@ static class Program
             //{
             //    Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}");
 
-            //    listaClienti.Select(c => new ClienteOrdiniDTO
+            listaClienti.Select(c => new ClienteOrdiniDTO
+            {
+                clienteNome = c.nome,
+                Ordini = listaOrdini
+             .Where(o => o.id == c.id)
+             .Select(o => new ProductDTO
+             {
+                 id = o.id,
+             }).ToList()
+            });
+
+            var ordineCliente = listaClienti
+                .Join(listaProdotti,
+                c => c.id,
+                o => o.id,
+                (c, o) => new { Clienti = c, Ordini = o })
+                .GroupBy(x => x.Clienti)
+                .Select(x => new ClienteOrdiniDTO
+                {
+                    clienteID = x.Key.nome,
+                    Ordini = x.Select(o => new ProductDTO
+                    {
+                        id = o.Ordini.id,
+                        Nome = o.Ordini.nome
+                    }).OrderBy(o => o.id).ToList()
+                });
+
+            //foreach (var x in listaOrdini)
+            //{
+            //    Console.WriteLine(x);
+            //}
+
+            //foreach (var cliente in ordineCliente)
+            //{
+            //    Console.WriteLine($"Cliente: {cliente.clienteID}");
+            //    Console.WriteLine("Ordini:");
+            //    foreach (var ordine in listaOrdini)
             //    {
-            //        clienteNome = c.nome,
-            //        Ordini = listaOrdini
-            //     .Where(o => o.id == c.id) 
-            //     .Select(o => new ProductDTO
-            //     {
-            //         id = o.id,
-            //     }).ToList()
-            //    });
+            //        Console.WriteLine($"ID Ordine: {ordine.id}, Prodotto: {ordine.nomeProdotto}");
+            //    }
 
-            //    var ordineCliente = listaClienti
-            //        .Join(listaProdotti,
-            //        c => c.id,   
-            //        o => o.id,
-            //        (c, o) => new { Clienti = c, Ordini = o })
-            //        .GroupBy(x => x.Clienti)
-            //        .Select(x => new ClienteOrdiniDTO
-            //        {
-            //            clienteID = x.Key.nome,
-            //            Ordini = x.Select(o => new ProductDTO
-            //            {
-            //                id = x.Key.id,
-            //                Nome = x.Key.nome,
-            //            }).OrderBy(o => o.id).ToList()
-            //        });
-
-            //    //foreach (var x in listaOrdini)
-            //    //{
-            //    //    Console.WriteLine(x);
-            //    //}
-
-            //    //foreach (var cliente in ordineCliente)
-            //    //{
-            //    //    Console.WriteLine($"Cliente: {cliente.clienteID}");
-            //    //    Console.WriteLine("Ordini:");
-            //        foreach (var ordine in listaOrdini)
-            //        {
-            //            Console.WriteLine($"ID Ordine: {ordine.id}, Prodotto: {ordine.nomeProdotto}"); 
-            //        }
-
-            foreach(var cliente in listaClienti)
+                foreach (var cliente in listaClienti)
             {
                 Console.WriteLine($"Id Cliente: {cliente.id}, Nome e cognome: {cliente.nome} {cliente.cognome}");
                 Console.WriteLine("Ordini:");
-                foreach(var ordine in cliente.Ordini)
+                foreach (var ordine in cliente.Ordini)
                 {
                     Console.WriteLine($"Id Ordine: {ordine.id}, Prodotto: {ordine.nomeProdotto}, Quantità: {ordine.numeroOrdini}");
                 }
             }
 
-            }
-
-            }
         }
-  
+
+    }
+ }
+
 
