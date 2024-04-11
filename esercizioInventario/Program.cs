@@ -10,6 +10,7 @@ static class Program
 {
     static List<Product> listaProdotti = new List<Product>();
     static List<Clienti> listaClienti = new List<Clienti>();
+    static List<Ordini> listaOrdini = new List<Ordini>();
 
     static void Main(string[] args)
     {
@@ -192,10 +193,10 @@ static class Program
     {
         Console.WriteLine("Inserire l'id del cliente che ha effettuato l'ordine");
         string id = Console.ReadLine();
-        var idCliente = listaProdotti.FirstOrDefault(p => p.id == id);
+        var clienteOrdine = listaClienti.FirstOrDefault(c => c.id == id);
         Product prodotto = new Product();
         
-        if(idCliente == null)
+        if(clienteOrdine == null)
         {
             Console.WriteLine("L'id inserito non esiste");
         }
@@ -222,7 +223,7 @@ static class Program
         Console.WriteLine("Lista clienti");
         foreach (var item in listaClienti)
         {
-            Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}");
+            Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}, ordini: {item.prodottoId}");
         }
     }
 
