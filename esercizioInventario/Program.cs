@@ -16,7 +16,7 @@ static class Program
     {
         bool continua = true;
 
-        while(continua)
+        while (continua)
         {
             Console.WriteLine("");
             Console.WriteLine("MENÙ");
@@ -34,7 +34,7 @@ static class Program
             Console.WriteLine("Scelta");
             var scelta = Console.ReadLine();
 
-            switch(scelta)
+            switch (scelta)
             {
                 case "1":
                     AggiungiProdotto();
@@ -97,14 +97,14 @@ static class Program
 
     static void MostraListaProdotti()
     {
-        if(listaProdotti.Count == 0)
+        if (listaProdotti.Count == 0)
         {
             Console.WriteLine("Magazzino vuoto!");
             return;
         }
 
         Console.WriteLine("Ecco la lista di tutti i prodotti presenti in negozio:\n");
-        foreach(var  item in listaProdotti)
+        foreach (var item in listaProdotti)
         {
             Console.WriteLine($"Nome: {item.nome}, Quantità: {item.quantita}, Prezzo: {item.prezzo}");
         }
@@ -120,7 +120,7 @@ static class Program
         Console.WriteLine($"Nome: {ProdottoPiuCostoso.nome}, Quantità: {ProdottoPiuCostoso.quantita}, Prezzo: {ProdottoPiuCostoso.prezzo}");
 
         //Console.WriteLine(listaProdotti.OrderByDescending(p => p.prezzo).Take(n).ToList()); 
-        
+
     }
 
     static void MostraProdottiRange()
@@ -128,12 +128,12 @@ static class Program
         Console.WriteLine("Inserisci il prezzo minimo:");
         double minRange = double.Parse(Console.ReadLine());
         Console.WriteLine("Inserisci il prezzo massimo:");
-        double maxRange = double.Parse(Console.ReadLine()); 
+        double maxRange = double.Parse(Console.ReadLine());
 
         var ProdottiFiltrati = listaProdotti.Where(p => p.prezzo > minRange && p.prezzo < maxRange).ToList();
         Console.WriteLine("Questi sono i prodotti compatibili con le tue esigenze:\n");
-        
-        foreach(var item in ProdottiFiltrati)
+
+        foreach (var item in ProdottiFiltrati)
         {
             //if (ProdottiFiltrati==null)
             //{
@@ -141,9 +141,9 @@ static class Program
             //}
             //else
             //{
-                Console.WriteLine($"Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
-            
-   
+            Console.WriteLine($"Nome: {item.nome}, Quantita: {item.quantita}, Prezzo: {item.prezzo}");
+
+
         }
     }
 
@@ -153,7 +153,7 @@ static class Program
         string id = Console.ReadLine();
         var prodottoDaRimuovere = listaProdotti.FirstOrDefault(p => p.id == id);
 
-        if(prodottoDaRimuovere==null)
+        if (prodottoDaRimuovere == null)
         {
             Console.WriteLine("Il prodotto non è in lista");
         }
@@ -195,9 +195,9 @@ static class Program
         string id = Console.ReadLine();
         var clienteOrdine = listaClienti.FirstOrDefault(c => c.id == id);
         Ordini prodottoOrdinato = new Ordini();
-        
-        
-        if(clienteOrdine == null)
+
+
+        if (clienteOrdine == null)
         {
             Console.WriteLine("L'id inserito non esiste");
         }
@@ -212,54 +212,68 @@ static class Program
 
             listaOrdini.Add(prodottoOrdinato);
             Console.WriteLine("Ordine inserito con successo");
-           
+
         }
     }
 
     static void MostraListaClienti()
     {
-        if(listaClienti.Count == 0)
+        if (listaClienti.Count == 0)
         {
             Console.WriteLine("Nessun cliente presente");
         }
-
-        Console.WriteLine("Lista clienti");
-        foreach (var item in listaClienti)
+        else
         {
-            Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}");
 
-            listaClienti.Select(c => new ClienteOrdiniDTO
+            Console.WriteLine("Lista clienti");
+            foreach (var item in listaClienti)
             {
-                clienteNome = c.nome,
-                Ordini = listaOrdini
-             .Where(o => o.id == c.id)
-             .Select(o => new ProductDTO
-             {
-                 id = o.id,
-             }).ToList()
-            } );
+                Console.WriteLine($"Nome: {item.nome}, Cognome: {item.cognome}, id: {item.id}");
 
-            var ordineCliente = listaClienti
-                .Join(listaProdotti,
-                c => c.id,
-                p => p.id,
-                (c, p) => new { Clienti = c, Product = p })
-                .GroupBy(x => x.Clienti)
-                .Select(x => new ClienteOrdiniDTO
+                listaClienti.Select(c => new ClienteOrdiniDTO
                 {
-                    clienteID = x.Key.nome,
-                    Ordini = x.Select(o => new ProductDTO
-                    {
-                        id = x.Key.id,
-                        Nome = x.Key.nome,
-                    }).OrderBy(o => o.id).ToList()
+                    clienteNome = c.nome,
+                    Ordini = listaOrdini
+                 .Where(o => o.id == c.id)
+                 .Select(o => new ProductDTO
+                 {
+                     id = o.id,
+                 }).ToList()
                 });
 
-            Console.WriteLine(listaOrdini);
+                var ordineCliente = listaClienti
+                    .Join(listaProdotti,
+                    c => c.id,
+                    o => o.id,
+                    (c, o) => new { Clienti = c, Ordini = o })
+                    .GroupBy(x => x.Clienti)
+                    .Select(x => new ClienteOrdiniDTO
+                    {
+                        clienteID = x.Key.nome,
+                        Ordini = x.Select(o => new ProductDTO
+                        {
+                            id = x.Key.id,
+                            Nome = x.Key.nome,
+                        }).OrderBy(o => o.id).ToList()
+                    });
+
+                //foreach (var x in listaOrdini)
+                //{
+                //    Console.WriteLine(x);
+                //}
+
+                //foreach (var cliente in ordineCliente)
+                //{
+                //    Console.WriteLine($"Cliente: {cliente.clienteID}");
+                //    Console.WriteLine("Ordini:");
+                    foreach (var ordine in listaOrdini)
+                    {
+                        Console.WriteLine($"ID Ordine: {ordine.id}, Prodotto: {ordine.nomeProdotto}");
+                    }
+                }
 
             }
         }
     }
-
 
 
